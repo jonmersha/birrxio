@@ -1,84 +1,115 @@
-import React, { useRef } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import HeroCard from "../components/HeroCard";
 import ExchangeRatesSection from "../components/ExchangeSection";
 import CommoditySection from "../components/CommoditySection";
 import LocalMarketContainer from "../components/LocalMarketContainer";
 import InflationSection from "../components/InflationSection";
-import "./Home.css"; // Assuming you create this CSS file
+import Contact from "./Contact";
+import "./Home.css";
 
 const Home = () => {
-  const exchangeRef = useRef<HTMLDivElement>(null);
-  const commodityRef = useRef<HTMLDivElement>(null);
-  const marketRef = useRef<HTMLDivElement>(null);
-  const inflationRef = useRef<HTMLDivElement>(null);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState("home");
 
-  const scrollToSection = (ref: React.RefObject<HTMLDivElement | null>) => {
-    ref.current?.scrollIntoView({ behavior: "smooth" });
+  // Declare refs
+  const homeRef = useRef<HTMLElement | null>(null);
+  const exchangeRef = useRef<HTMLElement | null>(null);
+  const commodityRef = useRef<HTMLElement | null>(null);
+  const marketRef = useRef<HTMLElement | null>(null);
+  const inflationRef = useRef<HTMLElement | null>(null);
+  const contactRef = useRef<HTMLElement | null>(null);
+
+  const sectionRefs = [
+    { id: "home", ref: homeRef },
+    { id: "exchange", ref: exchangeRef },
+    { id: "commodities", ref: commodityRef },
+    { id: "market", ref: marketRef },
+    { id: "inflation", ref: inflationRef },
+    { id: "contact", ref: contactRef },
+  ];
+
+  const scrollToSection = (
+    ref: React.RefObject<HTMLElement | null>,
+    section: string
+  ) => {
+    if (ref.current) {
+      ref.current.scrollIntoView({ behavior: "smooth" });
+      setActiveSection(section);
+      setMenuOpen(false);
+    }
   };
+
+  useEffect(() => {
+    const handleScroll = () => {
+      for (const section of sectionRefs) {
+        const top = section.ref.current?.offsetTop ?? 0;
+        const height = section.ref.current?.offsetHeight ?? 0;
+        if (
+          window.scrollY >= top - 100 &&
+          window.scrollY < top + height - 100
+        ) {
+          setActiveSection(section.id);
+        }
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
     <>
-      <nav
-        style={{
-          position: "sticky",
-          top: 0,
-          zIndex: 100,
-          backgroundColor: "rgba(255, 255, 255, 0.95)",
-          boxShadow: "0 2px 10px rgba(0,0,0,0.1)",
-          padding: "1rem 0",
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            gap: "2rem",
-            maxWidth: "1200px",
-            margin: "0 auto",
-            flexWrap: "wrap",
-          }}
-        >
+      <nav className="navbar">
+        <div className="nav-container">
           <button
-            onClick={() => scrollToSection(exchangeRef)}
-            className="nav-button"
+            className="menu-toggle"
+            onClick={() => setMenuOpen(!menuOpen)}
           >
-            Exchange Rates
+            {menuOpen ? "←" : "➜"}
           </button>
-          <button
-            onClick={() => scrollToSection(commodityRef)}
-            className="nav-button"
-          >
-            Commodities
-          </button>
-          <button
-            onClick={() => scrollToSection(marketRef)}
-            className="nav-button"
-          >
-            Local Markets
-          </button>
-          <button
-            onClick={() => scrollToSection(inflationRef)}
-            className="nav-button"
-          >
-            Inflation Data
-          </button>
+
+          <div className={`nav-links ${menuOpen ? "open" : ""}`}>
+            {sectionRefs.map(({ id, ref }) => (
+              <button
+                key={id}
+                onClick={() => scrollToSection(ref, id)}
+                className={`nav-button ${activeSection === id ? "active" : ""}`}
+              >
+                {id === "home"
+                  ? "Home"
+                  : id === "exchange"
+                  ? "Exchange Rates"
+                  : id === "commodities"
+                  ? "Commodities"
+                  : id === "market"
+                  ? "Local Markets"
+                  : id === "inflation"
+                  ? "Inflation Data"
+                  : "Contact"}
+              </button>
+            ))}
+          </div>
         </div>
       </nav>
 
-      <HeroCard />
-
-      <div ref={exchangeRef}>
+      <section ref={homeRef}>
+        <HeroCard />
+      </section>
+      <section ref={exchangeRef}>
         <ExchangeRatesSection />
-      </div>
-      <div ref={commodityRef}>
+      </section>
+      <section ref={commodityRef}>
         <CommoditySection />
-      </div>
-      <div ref={marketRef}>
+      </section>
+      <section ref={marketRef}>
         <LocalMarketContainer />
-      </div>
-      <div ref={inflationRef}>
+      </section>
+      <section ref={inflationRef}>
         <InflationSection />
-      </div>
+      </section>
+      <section ref={contactRef}>
+        <Contact />
+      </section>
     </>
   );
 };

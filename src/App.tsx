@@ -3,13 +3,19 @@
 // import About from './page/About';
 // import Contact from './page/Contact';
 
+import Footer from "./components/Footer";
 import Home from "./page/Home";
+import "@fortawesome/fontawesome-free/css/all.min.css";
 
 function App() {
   //const [count] = useState(0)
 
   return (
-    <Home />
+    <>
+      <Home />
+      <Footer />
+    </>
+
     // <Router>
     //   {/* <div>
     //   //<NavBar/>
