@@ -1,136 +1,86 @@
-// import HeroCard from '../components/HeroCard'
-// import ExchangeRatesSection from '../components/ExchangeSection'
-// import CommoditySection from '../components/CommoditySection'
-// import LocalMarketContainer from '../components/LocalMarketContainer'
-// import InflationSection from '../components/InflationSection'
-
-// const Home = () => {
-//   return (
-//     <>
-//     <HeroCard/>
-//     <ExchangeRatesSection/>
-//     <CommoditySection/>
-//     <LocalMarketContainer/>
-//     <InflationSection/>
-//     </>
-    
-//   )
-// }
-
-// export default Home
-
-import React, { useRef } from 'react';
-import HeroCard from '../components/HeroCard';
-import ExchangeRatesSection from '../components/ExchangeSection';
-import CommoditySection from '../components/CommoditySection';
-import LocalMarketContainer from '../components/LocalMarketContainer';
-import InflationSection from '../components/InflationSection';
+import React, { useRef } from "react";
+import HeroCard from "../components/HeroCard";
+import ExchangeRatesSection from "../components/ExchangeSection";
+import CommoditySection from "../components/CommoditySection";
+import LocalMarketContainer from "../components/LocalMarketContainer";
+import InflationSection from "../components/InflationSection";
+import "./Home.css"; // Assuming you create this CSS file
 
 const Home = () => {
-  // Create refs for each section
   const exchangeRef = useRef<HTMLDivElement>(null);
   const commodityRef = useRef<HTMLDivElement>(null);
   const marketRef = useRef<HTMLDivElement>(null);
   const inflationRef = useRef<HTMLDivElement>(null);
 
-  // Scroll to section function
-  const scrollToSection = (ref: React.RefObject<HTMLDivElement>) => {
-    ref.current?.scrollIntoView({ behavior: 'smooth' });
+  const scrollToSection = (ref: React.RefObject<HTMLDivElement | null>) => {
+    ref.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
     <>
-      {/* Navigation Menu */}
-      <nav style={{
-        position: 'sticky',
-        top: 0,
-        zIndex: 100,
-        backgroundColor: 'rgba(255, 255, 255, 0.95)',
-        boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
-        padding: '1rem 0'
-      }}>
-        <div style={{
-          display: 'flex',
-          justifyContent: 'center',
-          gap: '2rem',
-          maxWidth: '1200px',
-          margin: '0 auto',
-          flexWrap: 'wrap'
-        }}>
-          <button 
+      <nav
+        style={{
+          position: "sticky",
+          top: 0,
+          zIndex: 100,
+          backgroundColor: "rgba(255, 255, 255, 0.95)",
+          boxShadow: "0 2px 10px rgba(0,0,0,0.1)",
+          padding: "1rem 0",
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            gap: "2rem",
+            maxWidth: "1200px",
+            margin: "0 auto",
+            flexWrap: "wrap",
+          }}
+        >
+          <button
             onClick={() => scrollToSection(exchangeRef)}
-            style={{
-              background: 'none',
-              border: 'none',
-              color: '#333',
-              fontWeight: '600',
-              cursor: 'pointer',
-              padding: '0.5rem 1rem',
-              borderRadius: '4px',
-              transition: 'all 0.2s ease',
-              ':hover': {
-                backgroundColor: '#f0f0f0'
-              }
-            }}
+            className="nav-button"
           >
             Exchange Rates
           </button>
-          <button 
+          <button
             onClick={() => scrollToSection(commodityRef)}
-            style={navButtonStyle}
+            className="nav-button"
           >
             Commodities
           </button>
-          <button 
+          <button
             onClick={() => scrollToSection(marketRef)}
-            style={navButtonStyle}
+            className="nav-button"
           >
             Local Markets
           </button>
-          <button 
+          <button
             onClick={() => scrollToSection(inflationRef)}
-            style={navButtonStyle}
+            className="nav-button"
           >
             Inflation Data
           </button>
         </div>
       </nav>
 
-      <HeroCard/>
-      
-      {/* Add refs to each section */}
+      <HeroCard />
+
       <div ref={exchangeRef}>
-        <ExchangeRatesSection/>
+        <ExchangeRatesSection />
       </div>
-      
       <div ref={commodityRef}>
-        <CommoditySection/>
+        <CommoditySection />
       </div>
-      
       <div ref={marketRef}>
-        <LocalMarketContainer/>
+        <LocalMarketContainer />
       </div>
-      
       <div ref={inflationRef}>
-        <InflationSection/>
+        <InflationSection />
       </div>
     </>
   );
-};
-
-// Reusable nav button style
-const navButtonStyle = {
-  background: 'none',
-  border: 'none',
-  color: '#333',
-  fontWeight: '600',
-  cursor: 'pointer',
-  padding: '0.5rem 1rem',
-  borderRadius: '4px',
-  transition: 'all 0.2s ease',
-  ':hover': {
-    backgroundColor: '#f0f0f0'
-  }
 };
 
 export default Home;

@@ -1,19 +1,19 @@
-import NavBar from './components/NavBar'
-import { Route, BrowserRouter as Router, Routes,} from 'react-router-dom';
-import About from './page/About';
-import Contact from './page/Contact';
-import Home from './page/Home';
+// import NavBar from './components/NavBar'
+// import { Route, BrowserRouter as Router, Routes,} from 'react-router-dom';
+// import About from './page/About';
+// import Contact from './page/Contact';
 
+import Home from "./page/Home";
 
 function App() {
   //const [count] = useState(0)
 
   return (
-    <Home/>
+    <Home />
     // <Router>
     //   {/* <div>
     //   //<NavBar/>
-  
+
     //     {/* Routing configuration */}
     //     <Routes>
     //       <Route  path="/" Component={Home} />
@@ -22,7 +22,7 @@ function App() {
     //     </Routes>
     //   </div>
     // </Router> */}
-  )
+  );
 }
 
-export default App
+export default App;
